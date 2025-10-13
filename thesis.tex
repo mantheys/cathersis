@@ -1,0 +1,82 @@
+\documentclass[12pt,a4paper,twoside]{book}
+
+% Package imports
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+
+% Page layout
+\geometry{
+  left=3.5cm,
+  right=2.5cm,
+  top=2.5cm,
+  bottom=2.5cm
+}
+
+% Line spacing
+\onehalfspacing
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+
+% Hyperref setup
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+% Document metadata
+\title{Particle Physics PhD Thesis}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+% Front matter
+\frontmatter
+\include{chapters/titlepage}
+\include{chapters/abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+% Main matter
+\mainmatter
+\include{chapters/introduction}
+\include{chapters/theory}
+\include{chapters/experiment}
+\include{chapters/results}
+\include{chapters/conclusion}
+
+% Back matter
+\backmatter
+\bibliographystyle{plain}
+\bibliography{references}
+
+\appendix
+\include{chapters/appendix}
+
+\end{document}
