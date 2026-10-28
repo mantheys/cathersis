@@ -1,43 +1,205 @@
-\documentclass[12pt,a4paper,twoside]{book}
+\documentclass[12pt,a4paper,twoside]{book} % Options: 10pt, 11pt, 12pt; a4paper, letterpaper; oneside, twoside; report, book, article, etc.
+
+% Paragraph formatting
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
 
 % Package imports
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\usepackage[british]{babel}
+\babelprovide[import]{spanish} % hyphenation for the Resumen and Conclusiones
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\newif\ifreviewbuild
+\ifdefined\REVIEWBUILD
+  \reviewbuildtrue
+\else
+  \reviewbuildfalse
+\fi
+\ifreviewbuild
+  \PassOptionsToPackage{draft}{graphicx}
+\fi 
+\usepackage{braket}
 \usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{cite}
-\usepackage{geometry}
-\usepackage{setspace}
-\usepackage{fancyhdr}
+\usepackage[hyperfootnotes=false]{hyperref} % footnote marks unlinked: packages loaded after hyperref (KOMA scrlayer, minitoc, titlesec) drop the footnote anchors
+% biblatex with the biblatex-phys (AIP/APS) style, in the form used by HEP journals:
+%   A. Author et al. (X Collaboration), "Title", Phys. Rev. D 96, 036005 (2017), arXiv:1705.04252.
+%   The journal reference links to the DOI; the DOI itself is not printed.
+%   maxnames/minnames : lists of more than four authors print as "First et al."
+%   sorting=none preserves citation order; [1,2,3] compresses to [1–3].
+%   collaboration     : field printed in parentheses after the authors (references.bib).
+\usepackage[
+  backend=biber,
+  style=phys,
+  biblabel=brackets,
+  articletitle=true,
+  chaptertitle=true,
+  pageranges=false,    % first page only, as in APS/JHEP references
+  sorting=none,
+  maxnames=4,
+  minnames=1,
+  giveninits=true,
+  eprint=true,         % arXiv number after the journal reference
+  url=true,            % URLs only remain on entries without a DOI or arXiv number (sourcemap below)
+  urldate=iso,
+  seconds=false,
+  backref=true,        % list the pages that cite each entry
+  backrefstyle=three,  % compress runs of three or more pages: pp. 3–5
+]{biblatex}
+\addbibresource{references.bib}
+% Back-references: "(cited on pp. 12, 40–42)" with each page linked to the citing page
+\DefineBibliographyStrings{english}{
+  backrefpage  = {cited on p\adddot},
+  backrefpages = {cited on pp\adddot},
+  urlseen      = {accessed},
+}
+% Titles are stored in sentence case in references.bib; print them as written
+% (biblatex-phys would otherwise lower-case acronyms and proper names).
+\DeclareFieldFormat{titlecase}{#1}
+\setlength{\emergencystretch}{3em}
+% URLs and arXiv numbers may break after any character, without stretching the
+% space between characters (stretched URLs read as "arXiv:1807 . 06209").
+\setcounter{biburlnumpenalty}{100}
+\setcounter{biburlucpenalty}{100}
+\setcounter{biburllcpenalty}{100}
+\biburlbigskip=0mu
+\AtBeginBibliography{\urlstyle{same}} % arXiv numbers and URLs in the text font, as in journal reference lists
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    % Never rendered; can contain raw Unicode that pdflatex/T1 cannot read from the .bbl.
+    \map{\step[fieldset=abstract, null]}
+    \map{\step[fieldset=issn, null]}
+    \map{\step[fieldset=month, null]}
+    % New-style arXiv numbers carry no category; old-style ones include it in the number.
+    \map{\step[fieldset=primaryclass, null]}
+    % A DOI or arXiv number already links the reference: drop the duplicate URL
+    % (web pages keep theirs).
+    \map{
+      \pernottype{online}
+      \step[fieldsource=doi, final]
+      \step[fieldset=url, null]
+    }
+    \map{
+      \pernottype{online}
+      \step[fieldsource=eprint, final]
+      \step[fieldset=url, null]
+    }
+  }
+}
+\usepackage{geometry} 
+\usepackage{setspace} 
+\usepackage[automark,headsepline,singlespacing=true]{scrlayer-scrpage} % For custom headers and footers
+\usepackage{emptypage} % Blank pages inserted by \cleardoublepage carry no header or footer
+\usepackage[dvipsnames]{xcolor} % For colored links
+\usepackage{booktabs} % For better table formatting
+\usepackage{tabularx} % For tables that fit to line width
+\usepackage{caption}  % For better control over figure and table captions
+\usepackage{placeins} % For FloatBarrier to contain floats in sections
+\usepackage{float} % [H] placement for appendix floats that must stay in their subsection
+\usepackage{cleveref} % For better cross-referencing
+% Unified cross-reference naming so that \cref/\Cref are driven consistently.
+% \cref uses lowercase type names; \Cref capitalises for sentence-initial use.
+% Equations render as "equation 3.1" (no abbreviation, no parentheses).
+\crefname{equation}{equation}{equations}
+\Crefname{equation}{Equation}{Equations}
+\creflabelformat{equation}{#2#1#3}
+\crefname{section}{section}{sections}
+\Crefname{section}{Section}{Sections}
+\crefname{subsection}{section}{sections}
+\Crefname{subsection}{Section}{Sections}
+\crefname{chapter}{chapter}{chapters}
+\Crefname{chapter}{Chapter}{Chapters}
+\crefname{figure}{figure}{figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{table}{table}{tables}
+\Crefname{table}{Table}{Tables}
+
+\usepackage{csquotes} % For better handling of quotes
+\usepackage{titlesec}
+\usepackage{multirow}
+\usepackage{minitoc} % Per-chapter mini tables of contents
+\mtcsetoffset{minitoc}{-1.5em} % Shift entries left so the first visible level is not indented
+
+\usepackage{subcaption} % For subfigures
+\usepackage{siunitx}  % For better handling of units
+% Custom units: declare project-specific units here.
+\DeclareSIUnit \photoelectron {PE}
+\DeclareSIUnit \year {yr}
+\DeclareSIUnit \bar {bar} % siunitx v3 deprecates its own \bar
+\DeclareSIUnit \ppm {ppm}
+% Spanish front/back matter (Resumen, Conclusiones): local unit names and range phrase, used inside otherlanguage{spanish}
+\newcommand{\spanishsetup}{%
+  \DeclareSIUnit\year{años}%
+  \sisetup{range-phrase={ a }, list-final-separator={ y }}}
+\sisetup{
+  uncertainty-mode            = separate,
+  uncertainty-descriptor-mode = subscript,
+}
+
+\usepackage{xspace}
+\usepackage{seqsplit}
+\usepackage[acronym]{glossaries} % Add this line to the package imports
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, decorations.pathmorphing, calc, fit, patterns, shapes.geometric}
+\usepackage[compat=1.1.0]{tikz-feynman}
+\tikzfeynmanset{warn luatex=false} % pdflatex: place vertices by hand
+\usepackage{refcount} % \getpagerefnumber — used by page-count tracking commands
+
+\usepackage{subfiles}
+
+% \setcounter{chapter}{-1}
 
 % Page layout
 \geometry{
   left=3.5cm,
   right=2.5cm,
   top=2.5cm,
-  bottom=2.5cm
+  bottom=2.5cm,
+  headheight=14.5pt
 }
-
+  
 % Line spacing
-\onehalfspacing
+\onehalfspacing % Use with package setspace. Options: singlespacing, onehalfspacing, doublespacing
+\raggedbottom   % Prevent vertical stretching that causes white gaps before section headings
+
+% Sectioning: number subsubsections, but keep main TOC uncluttered
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries}
+  {\@chapapp\ \thechapter}
+  {0.5em}
+  {}
+\makeatother
+\titlespacing*{\chapter}{0pt}{0pt}{1em}
 
 % Header and footer
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[LE,RO]{\thepage}
-\fancyhead[RE]{\leftmark}
-\fancyhead[LO]{\rightmark}
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+% Drop the chapter title from the running head — keep only "Chapter N" (via
+% \chaptermarkformat) so both verso and recto headers show the same,
+% consistent information instead of chapter title vs. section title.
+\renewcommand{\chaptermark}[1]{\markboth{\chaptermarkformat}{}}
+\lehead{\thepage}
+\rehead{\leftmark}
+\lohead{\leftmark}
+\rohead{\thepage}
 
 % Hyperref setup
 \hypersetup{
+  unicode=true,
+  pdfencoding=auto,
   colorlinks=true,
-  linkcolor=blue,
-  citecolor=blue,
-  urlcolor=blue
+  linkcolor=accentVermilion,
+  citecolor=accentSkyBlue,
+  urlcolor=accentVermilion,
+  pdfborder={0 0 0} % Suppress link rectangles/underlines in non-colorlinks viewer modes
 }
-
+  
 % Theorem environments
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -46,37 +208,181 @@
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
+% External figure attribution macro — appended at end of caption text.
+% Usage: \figfrom{citekey}  or  \figfrom{key1, key2}
+\newcommand{\figfrom}[1]{\textit{From~\cite{#1}.}}
+\newcommand{\adaptedfrom}[1]{\textit{Adapted from~\cite{#1}.}}
 
-% Document metadata
-\title{Particle Physics PhD Thesis}
-\author{Your Name}
+\input{references/style/main}
+
+% Page-count tracking toggle — see README.md § "Build toggles" for usage.
+\newif\ifpagecount
+% \pagecounttrue
+
+\makeatletter
+
+% Written to .aux on each pass so mappings are available when the TOC/minitoc is
+% typeset (which happens before the chapter bodies where \pcstart is called).
+\newcommand{\pcannmark}[3]{%  #1=id  #2=target  #3=hyperref-anchor
+  \expandafter\gdef\csname pct:#1\endcsname{#2}%
+  \expandafter\gdef\csname pcid@#3\endcsname{#1}%
+}
+
+% --- Annotating \contentsline for same-line page-count info in TOC/minitoc ---
+%
+% Strategy: wrap \tableofcontents and \minitoc to replace \contentsline with a
+% version that looks up the pcid@ mapping (written to .aux by \pcstart) for the
+% hyperref anchor in argument #4 and appends the annotation inline to the title.
+% No buffering needed: pcid@ data is available immediately from the .aux macros.
+
+\newcommand{\@pcann@annotated@cl}[4]{%
+  \ifcsname pcid@#4\endcsname
+    \edef\@pcann@id{\csname pcid@#4\endcsname}%
+    \@orig@contentsline{#1}%
+      {#2\texorpdfstring{%
+         \ifpagecount
+           \nobreakspace
+           {\color{accentSkyBlue}\scriptsize\itshape
+             [\csname pct:\@pcann@id\endcsname\,pp\enspace$|$\enspace
+              \the\numexpr
+                \getpagerefnumber{pce:\@pcann@id}%
+                -\getpagerefnumber{pcs:\@pcann@id}\relax\,pp]}%
+         \fi}{}}%
+      {#3}{#4}%
+  \else
+    \@orig@contentsline{#1}{#2}{#3}{#4}%
+  \fi
+}
+
+\let\@orig@tableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{%
+  \let\@orig@contentsline\contentsline
+  \let\contentsline\@pcann@annotated@cl
+  \@orig@tableofcontents
+  \let\contentsline\@orig@contentsline
+}
+
+\let\@orig@minitoc\minitoc
+\renewcommand{\minitoc}{%
+  \let\@orig@contentsline\contentsline
+  \let\contentsline\@pcann@annotated@cl
+  \@orig@minitoc
+  \let\contentsline\@orig@contentsline
+}
+
+% Single annotation right after the heading (body display + aux registration).
+\newcommand{\pcstart}[2]{%
+  \ifpagecount
+    \label{pcs:#1}%
+    \expandafter\gdef\csname pct:#1\endcsname{#2}%
+    \expandafter\gdef\csname pcid@\@currentHref\endcsname{#1}%
+    \protected@write\@auxout{}{\string\pcannmark{#1}{#2}{\@currentHref}}%
+    \noindent{%
+      {\color{accentSkyBlue}\footnotesize\itshape
+        $\triangleright$\enspace target:~#2\,pp}%
+      \enspace
+      {\color{accentOrange}\footnotesize\itshape
+        $\triangleleft$\enspace actual:~\the\numexpr
+          \getpagerefnumber{pce:#1}-\getpagerefnumber{pcs:#1}\relax\,pp}%
+    }\par\vspace{-\parskip}%
+  \fi
+}
+
+% Silent end-marker — places the label only, no display.
+\newcommand{\pcend}[1]{%
+  \ifpagecount
+    \label{pce:#1}%
+  \fi
+}
+
+\makeatother
+\input{references/quotes/quotes}
+\input{references/glossary/main}
+\input{references/acronyms/main}
+\input{references/metrics/main}
+
+\makenoidxglossaries % Add this line in the preamble
+
+% dominitoc must run at \begin{document}; placing it here via AtBeginDocument
+% ensures it also fires when a chapter subfile is compiled standalone.
+% In standalone chapter builds (\CHAPTERBUILD defined) there is no
+% \tableofcontents. We call \dominitoc FIRST so it can read the .toc from the
+% previous pass, then \faketableofcontents opens the .toc for this pass's
+% output. Reversing the order would truncate the .toc before \dominitoc reads it.
+\ifdefined\CHAPTERBUILD
+  \AtBeginDocument{\dominitoc\setcounter{minitocdepth}{2}\faketableofcontents}
+\else
+  \AtBeginDocument{\dominitoc\setcounter{minitocdepth}{2}}
+\fi
+
+% Document metadata (read by every title page style)
+\newcommand{\thesistitle}{Thesis Title}
+\newcommand{\thesissubtitle}{Thesis Subtitle}
+\newcommand{\thesisauthor}{Your Name}
+\newcommand{\thesisfield}{Experimental Particle Physics}
+\newcommand{\thesisdepartment}{Department of Physics}
+\newcommand{\thesisuniversity}{Universidad Autónoma de Madrid}
+\newcommand{\thesisprogramme}{Física Teórica}
+\newcommand{\thesisinstitution}{Your Institute}
+\newcommand{\thesisdirectors}{Dr. First Director, Dr. Second Director} % comma-separated; any number (use {...} around a name containing a comma)
+\title{\thesistitle}
+\author{\thesisauthor}
 \date{\today}
+
+% Title page style — selects chapters/titlepages/<style>.tex.
+% Available: default (plain), uam (UAM Escuela de Doctorado official cover)
+\newcommand{\titlepagestyle}{uam}
 
 \begin{document}
 
 % Front matter
 \frontmatter
 \include{chapters/titlepage}
+\include{chapters/acknowledgements}
 \include{chapters/abstract}
 
+\begingroup
+\setlength{\parskip}{0em}
 \tableofcontents
-\listoffigures
-\listoftables
+\endgroup
 
 % Main matter
 \mainmatter
-\include{chapters/introduction}
-\include{chapters/theory}
-\include{chapters/experiment}
-\include{chapters/results}
-\include{chapters/conclusion}
+\subfile{chapters/0_chapter/0_chapter.tex}
+\subfile{chapters/1_chapter/1_chapter.tex}
+\subfile{chapters/2_chapter/2_chapter.tex}
+\subfile{chapters/3_chapter/3_chapter.tex}
+\subfile{chapters/4_chapter/4_chapter.tex}
+\subfile{chapters/5_chapter/5_chapter.tex}
+
+% Black link text in the LOF/LOT (rest of the thesis keeps the coloured links)
+\begingroup
+\hypersetup{linkcolor=black}
+% Halve the 10pt gap between chapter groups in the LOF and LOT (keeps both on an even page count)
+\let\thesisaddvspace\addvspace
+\renewcommand{\addvspace}[1]{\ifdim#1=10pt\thesisaddvspace{5pt}\else\thesisaddvspace{#1}\fi}
+\listoffigures
+\listoftables
+\let\addvspace\thesisaddvspace
+\endgroup
+
+\newpage
+% Acronyms and Glossary open on the next page (no blank verso); the bibliography still opens on a recto
+\begingroup
+\let\cleardoublepage\clearpage
+\printnoidxglossary[type=\acronymtype] % Add this line where you want to print the acronyms
+\printnoidxglossary % Add this line where you want to print the glossary
+\endgroup
 
 % Back matter
 \backmatter
-\bibliographystyle{plain}
-\bibliography{references}
+\printbibliography
 
-\appendix
-\include{chapters/appendix}
+% Re-enable numbered chapters for appendices after backmatter.
+\makeatletter
+\@mainmattertrue
+\makeatother
+
+\subfile{chapters/appendix/appendix.tex}
 
 \end{document}
