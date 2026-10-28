@@ -2,6 +2,38 @@
 
 A structured LaTeX template for writing a PhD thesis.
 
+```bash
+make          # full build → thesis.pdf
+make quick    # fast draft (image placeholders)
+```
+
+## Showcase
+
+Pages of the PDF that this repository compiles to, with its placeholder content.
+
+<table>
+  <tr>
+    <td width="33%"><img src="docs/showcase/title_page.png" alt="UAM title page"></td>
+    <td width="33%"><img src="docs/showcase/contents.png" alt="Table of contents"></td>
+    <td width="33%"><img src="docs/showcase/chapter_opening.png" alt="Chapter opening"></td>
+  </tr>
+  <tr>
+    <td><b>Title page</b> — official UAM Escuela de Doctorado cover, filled in from the metadata macros (<code>\titlepagestyle{uam}</code>; a plain <code>default</code> style is included).</td>
+    <td><b>Contents</b> — unnumbered Motivation, Conclusiones and Summary listed alongside the numbered chapters; coloured links throughout.</td>
+    <td><b>Chapter opening</b> — chapter mini table of contents and an opening summary that points to every section (<code>\chaptertitleblock</code>; an epigraph can be switched on).</td>
+  </tr>
+  <tr>
+    <td><img src="docs/showcase/body.png" alt="Body text"></td>
+    <td><img src="docs/showcase/bibliography.png" alt="Bibliography"></td>
+    <td><img src="docs/showcase/appendix_tables.png" alt="Appendix tables"></td>
+  </tr>
+  <tr>
+    <td><b>Body</b> — Times-style text and maths (newtx), one-and-a-half spacing, running heads, acronyms expanded on first use, TikZ / tikz-feynman diagrams.</td>
+    <td><b>Bibliography</b> — journal-style references (biblatex-phys) linked to the DOI, with arXiv numbers, collaboration names and the pages that cite each entry.</td>
+    <td><b>Appendices</b> — lettered sections of one chapter, with booktabs tables sized by <code>\fitwidth</code>.</td>
+  </tr>
+</table>
+
 ## Structure
 
 ```text
@@ -83,9 +115,9 @@ cathersis/
 
 A `.latexmkrc` is included for IDE integrations that prefer `latexmk`. It points the output directory to `.build/` and runs biber automatically.
 
-### VS Code tasks
+### VS Code tasks (optional)
 
-The workspace includes pre-configured tasks (`.vscode/tasks.json`):
+`.vscode/tasks.json` wraps the make targets above, so editor builds and terminal builds are identical:
 
 | Task | Shortcut / how to run |
 | --- | --- |
