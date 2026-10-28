@@ -1,0 +1,48 @@
+% ============================================================
+%  references/metrics/main.tex
+%
+%  Central dictionary of key figures of merit.
+%  All numeric results that appear more than once in the
+%  thesis should be defined here.
+%
+%  Naming convention:  \fom<Topic><Descriptor>
+%  Usage in text:      \fomLHCEnergy, \fomHiggsMass, ...
+%
+%  Requires: siunitx and xspace (loaded in thesis.tex).
+%  Custom units are declared in thesis.tex.
+% ============================================================
+
+% Generated study results (\res...): written by the analysis scripts, never edited by hand.
+\input{results/macros}
+
+% A table wider than the text is scaled down to \linewidth. One wider than 2/3 of
+% the text width is set to the full width by widening its column separation, so its
+% font keeps the text size; tables whose separation cannot grow (@{} columns) are scaled.
+\newsavebox{\fitwidthbox}
+\newsavebox{\fitwidthprobe}
+\newlength{\fitwidthslope}
+\newcommand{\fitwidth}[1]{%
+  \begingroup
+  \sbox{\fitwidthbox}{#1}%
+  \ifdim\wd\fitwidthbox>\linewidth
+    \resizebox{\linewidth}{!}{\usebox{\fitwidthbox}}%
+  \else\ifdim\wd\fitwidthbox>0.66\linewidth
+    \begingroup\addtolength{\tabcolsep}{1pt}\global\sbox{\fitwidthprobe}{#1}\endgroup
+    \setlength{\fitwidthslope}{\dimexpr\wd\fitwidthprobe-\wd\fitwidthbox\relax}%
+    \ifdim\fitwidthslope>0.5pt
+      \setlength{\tabcolsep}{\dimexpr\tabcolsep+(\linewidth-\wd\fitwidthbox)*65536/\number\fitwidthslope\relax}%
+      #1%
+    \else
+      \resizebox{\linewidth}{!}{\usebox{\fitwidthbox}}%
+    \fi
+  \else
+    \usebox{\fitwidthbox}%
+  \fi\fi
+  \endgroup}
+
+% -----------------------------------------------------------
+%  EXAMPLES (replace with the figures of merit of your thesis)
+% -----------------------------------------------------------
+\newcommand{\fomLHCEnergy}{\qty{13.6}{\tera\electronvolt}\xspace}   % Run 3 centre-of-mass energy
+\newcommand{\fomHiggsMass}{\qty{125.1}{\giga\electronvolt}\xspace}
+\newcommand{\fomZMass}{\qty{91.19}{\giga\electronvolt}\xspace}

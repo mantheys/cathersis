@@ -1,4 +1,5 @@
 ## Core latex/pdflatex auxiliary files:
+*.mtc
 *.aux
 *.lof
 *.log
@@ -21,11 +22,15 @@
 # *.eps
 # *.pdf
 
-## Compiled thesis PDF (uncomment if you want to track the PDF)
-thesis.pdf
-
 ## Generated if empty string is given at "Please type another file name for output:"
-.pdf
+*.pdf
+references/papers/*.pdf
+
+## Compiled thesis PDF: uncomment to track it
+# !thesis.pdf
+
+## Figures may legitimately be PDFs
+!figures/**/*.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
@@ -46,6 +51,7 @@ thesis.pdf
 *.pdfsync
 *.rubbercache
 rubber.cache
+.build/
 
 ## Build tool directories for auxiliary files
 # latexrun
@@ -130,7 +136,7 @@ acs-*.bib
 *.sls
 
 # uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
+*.ist
 
 # gnuplot
 *.gnuplot
@@ -327,3 +333,17 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+## ---------------------------------------------------------------------------
+## Only files required to compile the thesis are tracked.
+## Use scripts/find_unused_assets.py to flag figures/tables no longer used.
+## ---------------------------------------------------------------------------
+
+# Standalone chapter / excerpt builds
+thesis_chapter*.pdf
+thesis_abstract.pdf
+thesis_summary.pdf
+
+# Local scratch and Python caches
+.scratch/
+__pycache__/

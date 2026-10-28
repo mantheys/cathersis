@@ -1,0 +1,38 @@
+\subsection{Subsection Title}
+\label{sec:N_SECTION_2_SUB_1}
+
+Subsection content. Tables use the \texttt{booktabs} package for clean horizontal rules:
+
+\begin{table}[!ht]
+  \centering
+  \setstretch{1.3}
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Parameter} & \textbf{Value A} & \textbf{Value B} \\
+    \midrule
+    Quantity 1 & $1.00 \pm 0.01$ & $0.98 \pm 0.02$ \\
+    Quantity 2 & $\SI{3.2}{\mega\electronvolt}$ & $\SI{3.5}{\mega\electronvolt}$ \\
+    Quantity 3 & 42 & 43 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Table caption. Describe the columns and any relevant conditions.}
+  \label{tab:N_example}
+\end{table}
+
+Reference as \cref{tab:N_example}. Use \texttt{multirow} for cells spanning multiple rows:
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{llc}
+    \toprule
+    \textbf{Group} & \textbf{Item} & \textbf{Value} \\
+    \midrule
+    \multirow{2}{*}{Group A} & Item 1 & 10 \\
+                             & Item 2 & 20 \\
+    \multirow{2}{*}{Group B} & Item 3 & 30 \\
+                             & Item 4 & 40 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Table with grouped rows.}
+  \label{tab:N_multirow}
+\end{table}

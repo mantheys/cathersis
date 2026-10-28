@@ -1,0 +1,55 @@
+% Universidad Autónoma de Madrid — Escuela de Doctorado cover (style: uam).
+% Replicates the official "PlantillaPortadaTesis" template: Roboto Condensed
+% throughout, elements placed at fixed fractions of the page so the layout is
+% independent of the body text margins.
+%
+% The cover is drawn in the shipout/foreground hook, whose origin is the
+% top-left page corner, so it is positioned correctly in a single pass (no
+% remember picture / .aux dependency, which breaks `make quick`).
+%
+% Fonts are selected via the T1 Roboto .fd files directly instead of loading
+% roboto.sty, which would redefine \sfdefault for the whole document.
+\newcommand{\uamfont}[3]{% #1=series #2=shape #3=size(pt)
+  \fontencoding{T1}\fontfamily{Roboto-LF}\fontseries{#1}\fontshape{#2}%
+  \fontsize{#3}{1.2\dimexpr#3pt\relax}\selectfont}
+% Directors from the comma-separated \thesisdirectors, one per line; the
+% whole "Dirección" block is omitted when the list is empty.
+\ExplSyntaxOn
+\NewDocumentCommand{\uamdirection}{}{
+  \clist_set:No \l_tmpa_clist {\thesisdirectors}
+  \clist_if_empty:NF \l_tmpa_clist {
+    \begin{tabular}{@{}l@{}}
+      Dirección:\\
+      \hspace{1.4em}\begin{tabular}{@{}l@{}}\clist_use:Nn \l_tmpa_clist {\\}\end{tabular}
+    \end{tabular}
+  }
+}
+\ExplSyntaxOff
+% Position relative to the top-left page corner, as fractions of the page size.
+\newcommand{\uamat}[2]{(#1\paperwidth,-#2\paperheight)}
+
+\begin{titlepage}
+  \AddToHookNext{shipout/foreground}{\put(0,0){%
+    \begin{tikzpicture}[overlay, every node/.style={inner sep=0pt, outer sep=0pt}]
+      % Logo (draft=false keeps it visible in \REVIEWBUILD draft builds)
+      \node[anchor=center] at \uamat{0.52}{0.125}
+        {\includegraphics[draft=false, width=0.64\paperwidth]{figures/titlepage/uam_escuela_doctorado_logo.jpg}};
+
+      \node[anchor=base west] at \uamat{0.141}{0.262}
+        {\uamfont{m}{it}{22}Tesis Doctoral};
+
+      % \hyphenchar=-1: never hyphenate the title
+      \node[anchor=north, text width=0.72\paperwidth, align=center] at \uamat{0.5}{0.305}
+        {\uamfont{bc}{n}{28}\hyphenchar\font=-1 \thesistitle};
+
+      \node[anchor=base east, text width=0.75\paperwidth, align=right] at \uamat{0.891}{0.528}
+        {\uamfont{bc}{n}{28}\thesisauthor};
+
+      \node[anchor=base east, text width=0.75\paperwidth, align=right] at \uamat{0.891}{0.733}
+        {\uamfont{c}{n}{16}Programa de Doctorado en \thesisprogramme\\\thesisinstitution};
+
+      \node[anchor=north west, align=left] at \uamat{0.141}{0.832}
+        {\uamfont{c}{n}{16}\uamdirection};
+    \end{tikzpicture}}}%
+  \null
+\end{titlepage}

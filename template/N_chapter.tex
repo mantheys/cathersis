@@ -1,0 +1,30 @@
+% Chapter root file.
+% Usage: copy this directory to chapters/N_chapter/, rename every file replacing "N" with the
+% chapter number, add the chapter quote/attribution to references/quotes/quotes.tex, and include
+% this file in thesis.tex with:
+%
+%   \subfile{chapters/N_chapter/N_chapter.tex}
+%
+% When building a single chapter in isolation use:
+%   make chapter CH=N          (review/draft mode)
+%   make chapter-full CH=N     (full pass with bibliography)
+
+\documentclass[../../thesis.tex]{subfiles}
+\begin{document}
+
+\chapter{Chapter Title}
+\label{ch:N}
+
+% \chaptertitleblock{quote}{attribution}{opening paragraph}
+% Leave quote and attribution empty strings to suppress the epigraph.
+\chaptertitleblock
+  {\QuoteChN}
+  {\AttribChN}
+  {Opening paragraph for the chapter. Briefly state what this chapter covers and why it matters
+   in the context of the thesis. One short paragraph is enough — the section breakdown that
+   follows will handle the details.}
+
+\input{chapters/N_chapter/N_1_section.tex}
+\input{chapters/N_chapter/N_2_section.tex}
+
+\end{document}

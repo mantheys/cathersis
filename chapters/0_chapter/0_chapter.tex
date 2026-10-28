@@ -1,0 +1,21 @@
+\documentclass[../../thesis.tex]{subfiles}
+\begin{document}
+\chapter*{Motivation}
+\addcontentsline{toc}{chapter}{Motivation}
+\markboth{Motivation}{Motivation}
+% minitoc's live "mtc" counter only auto-increments on numbered \chapter (hooked
+% into \@chapter, not \@schapter), but its per-chapter mtcN split files are
+% numbered sequentially for every chapter encountered, starred or not. Without
+% this, every chapter after this unnumbered preface reads the previous
+% chapter's minitoc contents. Keep it in every unnumbered chapter placed before
+% a numbered one.
+\stepcounter{mtc}
+\label{sec:MOTIVATION}
+\pcstart{ch0}{3}
+
+Despite the remarkable success of the \gls{sm}, several open questions remain: the nature of dark matter, the origin of the matter--antimatter asymmetry of the universe, and whether all fundamental forces can be unified. This thesis addresses [specific aspect] of these questions.
+
+\paragraph{Structure of the thesis} \Cref{sec:INTRODUCTION,sec:THEORY} introduce the \gls{sm} and its theoretical framework. \Cref{sec:EXPERIMENT} describes the experimental setup, and \cref{sec:RESULTS} presents the results of the analysis. Conclusiones and Summary draw the conclusions of the thesis, in Spanish and English. Supplementary material is collected in the appendices.
+
+\pcend{ch0}
+\end{document}

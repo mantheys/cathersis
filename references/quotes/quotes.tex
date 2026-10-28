@@ -1,0 +1,30 @@
+% Chapter epigraphs — single source of truth for all chapter quotes.
+% Each chapter uses \QuoteChN (quote text) and \AttribChN (attribution), with N in
+% Roman numerals (\QuoteChI, \QuoteChII, ...). They are printed only when
+% \showquotestrue is set in references/style/main.tex.
+%
+% \sourcelink{URL}{text} renders TEXT as an invisible hyperlink (no color change).
+% If URL is empty, it renders TEXT as plain text.
+\newcommand{\sourcelink}[2]{%
+  \ifx&#1&%
+    #2%
+  \else%
+    {\hypersetup{hidelinks}\href{#1}{#2}}%
+  \fi%
+}
+
+% Chapter 1: Introduction
+\newcommand{\QuoteChI}{``The important thing is not to stop questioning.''}
+\newcommand{\AttribChI}{\sourcelink{}{Albert Einstein, LIFE Magazine, May 2, 1955.}}
+
+% Chapter 2: Theoretical Framework
+\newcommand{\QuoteChII}{``What I cannot create, I do not understand.''}
+\newcommand{\AttribChII}{\sourcelink{https://archives.caltech.edu/}{Richard P. Feynman, on his blackboard at the time of his death, February 1988.}}
+
+% Chapter 3: Experimental Setup
+\newcommand{\QuoteChIII}{``When you can measure what you are speaking about, and express it in numbers, you know something about it.''}
+\newcommand{\AttribChIII}{\sourcelink{}{William Thomson (Lord Kelvin), ``Electrical Units of Measurement,'' Popular Lectures and Addresses, vol.~1 (1883).}}
+
+% Chapter 4: Results
+\newcommand{\QuoteChIV}{``Research is what I am doing when I don't know what I am doing.''}
+\newcommand{\AttribChIV}{\sourcelink{}{Attributed to Wernher von Braun.}}

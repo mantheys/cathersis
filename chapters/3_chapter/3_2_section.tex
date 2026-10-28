@@ -1,0 +1,39 @@
+\section{Detector}
+\label{sec:EXPERIMENT_DETECTOR}
+\pcstart{s32}{2}
+
+[Describe the detector system]
+
+\subsection{Tracking System}
+\label{sec:EXPERIMENT_DETECTOR_TRACKING_SYSTEM}
+
+The tracking system measures the trajectories of charged particles. Key components include:
+\begin{itemize}
+  \item Silicon pixel detector
+  \item Silicon strip detector
+  \item Drift chamber/Time Projection Chamber
+\end{itemize}
+
+\subsection{Calorimeters}
+\label{sec:EXPERIMENT_DETECTOR_CALORIMETERS}
+
+The calorimeter system measures particle energies:
+\begin{itemize}
+  \item Electromagnetic calorimeter (ECAL) - measures electrons and photons
+  \item Hadronic calorimeter (HCAL) - measures hadrons
+\end{itemize}
+
+Energy resolution can be parameterized as:
+\begin{equation}
+  \frac{\sigma_E}{E} = \frac{a}{\sqrt{E}} \oplus \frac{b}{E} \oplus c
+  \label{eq:energy-resolution}
+\end{equation}
+
+where $a$, $b$, and $c$ are constants determined through calibration.
+
+\subsection{Muon System}
+\label{sec:EXPERIMENT_DETECTOR_MUON_SYSTEM}
+
+The muon detection system identifies and measures muons that penetrate through the calorimeters.
+
+\pcend{s32}

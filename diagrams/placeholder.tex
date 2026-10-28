@@ -1,0 +1,8 @@
+% Placeholder TikZ diagram: keep each diagram in its own file and \input it inside a figure.
+\begin{tikzpicture}[node distance=1.2cm and 1.8cm, box/.style={draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, align=center}]
+  \node[box] (gen) {Generation};
+  \node[box, right=of gen] (sim) {Simulation};
+  \node[box, right=of sim] (reco) {Reconstruction};
+  \draw[-Stealth] (gen) -- (sim);
+  \draw[-Stealth] (sim) -- (reco);
+\end{tikzpicture}
