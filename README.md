@@ -13,7 +13,7 @@ Pages of the PDF that this repository compiles to, with its placeholder content.
 
 <table>
   <tr>
-    <td width="33%"><img src="docs/showcase/title_page.png" alt="UAM title page"></td>
+    <td width="33%"><img src="docs/showcase/title_page_minimal.png" alt="Minimal title page"></td>
     <td width="33%"><img src="docs/showcase/contents.png" alt="Table of contents"></td>
     <td width="33%"><img src="docs/showcase/chapter_opening.png" alt="Chapter opening"></td>
   </tr>
@@ -193,7 +193,7 @@ To add a style, create `chapters/titlepages/<name>.tex` containing a `titlepage`
 
 <table>
   <tr>
-    <td width="33%"><img src="docs/showcase/title_page.png" alt="minimal title page"></td>
+    <td width="33%"><img src="docs/showcase/title_page_minimal.png" alt="minimal title page"></td>
     <td width="33%"><img src="docs/showcase/title_page_default.png" alt="default title page"></td>
     <td width="33%"><img src="docs/showcase/title_page_uam.png" alt="uam title page"></td>
   </tr>
