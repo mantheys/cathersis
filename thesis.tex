@@ -58,6 +58,18 @@
 % Titles are stored in sentence case in references.bib; print them as written
 % (biblatex-phys would otherwise lower-case acronyms and proper names).
 \DeclareFieldFormat{titlecase}{#1}
+% Inside otherlanguage{spanish} babel's \languagename starts with a catcode-12 "s",
+% which never matches the "spanish" biblatex reads back from the .aux, so every
+% run ends with "Please rerun LaTeX". Rescan the name with the current catcodes.
+\makeatletter
+\let\thesis@langsetup@indoc\blx@langsetup@indoc
+\ExplSyntaxOn
+\protected\def\blx@langsetup@indoc#1{
+  \tl_set_rescan:Nnn \l_tmpa_tl {} {#1}
+  \exp_args:NV \thesis@langsetup@indoc \l_tmpa_tl
+}
+\ExplSyntaxOff
+\makeatother
 \setlength{\emergencystretch}{3em}
 % URLs and arXiv numbers may break after any character, without stretching the
 % space between characters (stretched URLs read as "arXiv:1807 . 06209").
@@ -330,8 +342,9 @@
 \date{\today}
 
 % Title page style — selects chapters/titlepages/<style>.tex.
-% Available: default (plain), uam (UAM Escuela de Doctorado official cover)
-\newcommand{\titlepagestyle}{uam}
+% Available: minimal (accent rule, left-aligned), default (plain, centred),
+% uam (UAM Escuela de Doctorado official cover)
+\newcommand{\titlepagestyle}{minimal}
 
 \begin{document}
 

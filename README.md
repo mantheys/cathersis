@@ -18,9 +18,9 @@ Pages of the PDF that this repository compiles to, with its placeholder content.
     <td width="33%"><img src="docs/showcase/chapter_opening.png" alt="Chapter opening"></td>
   </tr>
   <tr>
-    <td><b>Title page</b> — official UAM Escuela de Doctorado cover, filled in from the metadata macros (<code>\titlepagestyle{uam}</code>; a plain <code>default</code> style is included).</td>
+    <td><b>Title page</b> — <code>minimal</code> style: left-aligned on the text block, one accent rule, degree details at the foot; filled in from the metadata macros. The official UAM cover and a plain centred page are alternatives (<a href="#titlepagestyle--stylized-title-pages"><code>\titlepagestyle</code></a>).</td>
     <td><b>Contents</b> — unnumbered Motivation, Conclusiones and Summary listed alongside the numbered chapters; coloured links throughout.</td>
-    <td><b>Chapter opening</b> — chapter mini table of contents and an opening summary that points to every section (<code>\chaptertitleblock</code>; an epigraph can be switched on).</td>
+    <td><b>Chapter opening</b> — optional epigraph, chapter mini table of contents and an opening summary that points to every section (<code>\chaptertitleblock</code>; quotes switch off with <code>\showquotesfalse</code>).</td>
   </tr>
   <tr>
     <td><img src="docs/showcase/body.png" alt="Body text"></td>
@@ -46,7 +46,7 @@ cathersis/
 ├── STYLEGUIDE.md                 # Writing and formatting conventions
 ├── chapters/
 │   ├── titlepage.tex             # Title page dispatcher (\titlepagestyle)
-│   ├── titlepages/               # Title page styles: default.tex, uam.tex
+│   ├── titlepages/               # Title page styles: minimal.tex, default.tex, uam.tex
 │   ├── acknowledgements.tex      # Acknowledgements + statement of personal contribution
 │   ├── abstract.tex              # Resumen (Spanish) + Abstract
 │   ├── 0_chapter/                # Unnumbered Motivation
@@ -180,15 +180,29 @@ pdflatex '\def\REVIEWBUILD{1}\input{thesis.tex}'
 Selects which cover is typeset from `chapters/titlepages/<style>.tex`. Set it in the `thesis.tex` preamble, next to the metadata macros (`\thesistitle`, `\thesisauthor`, `\thesisprogramme`, `\thesisdirectors`, …) that every style reads:
 
 ```latex
-\newcommand{\titlepagestyle}{uam}   % or: default
+\newcommand{\titlepagestyle}{minimal}   % or: default, uam
 ```
 
 | Style     | Description |
 |-----------|-------------|
+| `minimal` | Left-aligned title in the body fonts under a short accent rule; author below; programme, university, institution, directors and month/year set small at the foot (current setting). |
 | `default` | Plain centred title page. |
 | `uam`     | Official Universidad Autónoma de Madrid (Escuela de Doctorado) cover: Roboto Condensed, UAM logo from `figures/titlepage/`. |
 
-To add a style, create `chapters/titlepages/<name>.tex` containing a `titlepage` environment. An unknown style falls back to `default` with a warning. The `uam` style positions elements with a TikZ overlay, so it needs two compile passes.
+To add a style, create `chapters/titlepages/<name>.tex` containing a `titlepage` environment. An unknown style falls back to `default` with a warning. The `uam` style draws the cover as a TikZ overlay at fixed fractions of the page, independent of the text margins.
+
+<table>
+  <tr>
+    <td width="33%"><img src="docs/showcase/title_page.png" alt="minimal title page"></td>
+    <td width="33%"><img src="docs/showcase/title_page_default.png" alt="default title page"></td>
+    <td width="33%"><img src="docs/showcase/title_page_uam.png" alt="uam title page"></td>
+  </tr>
+  <tr>
+    <td align="center"><code>minimal</code></td>
+    <td align="center"><code>default</code></td>
+    <td align="center"><code>uam</code></td>
+  </tr>
+</table>
 
 ### `\ifshowquotes` — chapter epigraphs
 
@@ -196,11 +210,11 @@ Each chapter opens with `\chaptertitleblock{quote}{attribution}{summary}` (defin
 
 ```latex
 \newif\ifshowquotes
-\showquotesfalse   % quotes hidden (current setting)
+\showquotestrue   % quotes printed (current setting)
 ```
 
-- **Activate:** change `\showquotesfalse` to `\showquotestrue` and rebuild. Every chapter prints its quote above the summary.
-- **Deactivate:** set it back to `\showquotesfalse`. The summary and minitoc are typeset as before; only the quote block is dropped.
+- **Deactivate:** change `\showquotestrue` to `\showquotesfalse` and rebuild. The summary and minitoc are typeset as before; only the quote block is dropped.
+- **Activate:** set it back to `\showquotestrue`. Every chapter prints its quote above the minitoc.
 
 The switch acts on all chapters at once. The quote texts and the `\QuoteChN`/`\AttribChN` arguments in the chapter files stay in place, so nothing else has to change. A chapter with an empty first argument never prints a quote. Toggling the quotes changes the length of the chapter openings, so check the page ends (`\ifpagecount`) after switching.
 
