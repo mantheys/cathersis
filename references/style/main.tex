@@ -1,0 +1,51 @@
+% Thesis appearance and layout settings.
+
+% Colour palette (Okabe-Ito, colour-blind safe)
+% main text: black; main highlight: orange; secondary highlight: sky blue
+\definecolor{accentBlack}{RGB}{0,0,0}
+\definecolor{accentOrange}{RGB}{230,153,0} % approx (0.90,0.60,0.00)
+\definecolor{accentSkyBlue}{RGB}{89,179,230} % approx (0.35,0.70,0.90)
+\definecolor{accentGreen}{RGB}{0,153,128} % approx (0.00,0.60,0.50)
+\definecolor{accentVermilion}{RGB}{204,102,0} % approx (0.80,0.40,0.00)
+
+% convenience commands for highlights
+\newcommand{\maincolor}{\color{accentBlack}}
+\newcommand{\highlight}[1]{\textcolor{accentVermilion}{#1}}
+\newcommand{\secondary}[1]{\textcolor{accentSkyBlue}{#1}}
+
+% Chapter epigraphs (references/quotes/quotes.tex): \showquotestrue to print them
+\newif\ifshowquotes
+\showquotesfalse
+\newcommand{\chaptertitleblock}[3]{%
+  \ifshowquotes\if\relax\detokenize{#1}\relax
+  \else
+    \begin{displayquote}
+      \textit{#1} \\
+      --- \textup{#2}
+    \end{displayquote}
+  \fi\fi
+  \minitoc
+  \vspace{1em}
+  #3
+  \par\medskip
+}
+
+\renewcommand*{\glstextformat}[1]{%
+  \textcolor{black}{#1}%
+} % Render all glossary-linked text in black while preserving hyperlinks
+% -----------------------------------------------------------
+%  Review markers: text in red is unconfirmed, stale or on hold
+%  and must be confirmed or changed by the author.
+%  \chk{...}            inline
+%  \begin{chkblock}     block (paragraphs, tables)
+% -----------------------------------------------------------
+\newcommand{\chk}[1]{\textcolor{red}{#1}}
+\newif\ifchkhold
+\newenvironment{chkblock}{\par\chkholdtrue\color{red}}{\par}
+
+% -----------------------------------------------------------
+%  Recurring names (STYLEGUIDE.md): define every name that
+%  appears throughout the thesis as a macro here and never
+%  type it by hand, so a rename is a one-line change.
+% -----------------------------------------------------------
+\newcommand{\detname}{the Detector\xspace}

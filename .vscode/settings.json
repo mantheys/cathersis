@@ -1,0 +1,39 @@
+{
+    "makefile.configureOnOpen": false,
+    "latex-workshop.latex.outdir": ".build",
+    "latex-workshop.latex.rootFile.useSubFilePackage": true,
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "latexmk",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.view.pdf.internal.synctex.keybinding": "ctrl-click",
+    "latex-workshop.synctex.afterBuild.enabled": false,
+    "ltex.language": "en-GB",
+    "ltex.dictionary": {
+        "en-GB": [
+            ":.vscode/ltex.dictionary.en-GB.txt"
+        ]
+    },
+    "ltex.hiddenFalsePositives": {
+        "en-GB": [
+            ":.vscode/ltex.hiddenFalsePositives.en-GB.txt"
+        ]
+    }
+}

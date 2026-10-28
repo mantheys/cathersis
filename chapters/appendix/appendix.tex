@@ -1,0 +1,44 @@
+\documentclass[../../thesis.tex]{subfiles}
+\begin{document}
+\makeatletter
+\@openrightfalse
+\makeatother
+
+% Appendices are sections of one unnumbered chapter, so they run on without page breaks.
+\appendix
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\setcounter{section}{0}
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\thesection.\Alph{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\Alph{subsubsection}}
+\renewcommand{\theHsection}{appendix.\thesection}
+\renewcommand{\theHsubsection}{appendix.\thesubsection}
+\renewcommand{\theHsubsubsection}{appendix.\thesubsubsection}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
+\renewcommand{\sectionmark}[1]{\markboth{Appendix \thesection}{}}
+\markboth{Appendices}{}
+% Let large floats share pages with text instead of sitting alone on half-empty float pages.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
+\section{Mathematical Derivations}
+\label{sec:APPENDIX_DERIVATIONS}
+\input{chapters/appendix/a_appendix.tex}
+
+\section{Data Tables}
+\label{sec:APPENDIX_TABLES}
+\input{chapters/appendix/b_appendix.tex}
+
+\section{Software and Computing}
+\label{sec:APPENDIX_SOFTWARE}
+\input{chapters/appendix/c_appendix.tex}
+
+\end{document}

@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Thesis (full)",
+      "type": "shell",
+      "command": "make",
+      "args": ["-B"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Thesis (quick)",
+      "type": "shell",
+      "command": "make",
+      "args": ["quick"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Chapter",
+      "type": "shell",
+      "command": "make",
+      "args": ["chapter", "CH=${input:chapterNumber}"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Chapter (full)",
+      "type": "shell",
+      "command": "make",
+      "args": ["chapter-full", "CH=${input:chapterNumber}"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Abstract and Summary",
+      "type": "shell",
+      "command": "make",
+      "args": ["abstract", "summary"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "make",
+      "args": ["clean"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "chapterNumber",
+      "type": "promptString",
+      "description": "Chapter number (e.g. 1)",
+      "default": "1"
+    }
+  ]
+}

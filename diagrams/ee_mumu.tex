@@ -1,0 +1,16 @@
+% Leading-order e+ e- -> mu+ mu- (s-channel photon), tikz-feynman with hand-placed vertices (pdflatex).
+\begin{tikzpicture}
+  \begin{feynman}
+    \vertex (a) at (0,0);
+    \vertex (b) at (2,0);
+    \vertex (i1) at (-1.5, 1.5) {\(e^-\)};
+    \vertex (i2) at (-1.5,-1.5) {\(e^+\)};
+    \vertex (f1) at (3.5, 1.5) {\(\mu^-\)};
+    \vertex (f2) at (3.5,-1.5) {\(\mu^+\)};
+    \diagram* {
+      (i1) -- [fermion] (a) -- [fermion] (i2),
+      (a) -- [photon, edge label=\(\gamma^*\)] (b),
+      (f2) -- [fermion] (b) -- [fermion] (f1),
+    };
+  \end{feynman}
+\end{tikzpicture}
